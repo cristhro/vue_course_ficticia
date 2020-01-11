@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <title>Sombrero seleccionador</title>
+    <div id="app">
+      <h1>{{title}}</h1>
+      <sombrero-seleccionador />
+    </div>
+  </body>
+</html>
+
+<script>
+  Vue.component("sombrero-seleccionador", {
+    data: function() {
+      return {
+        houses: ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"],
+        house: "",
+        loading: false
+      };
+    },
+    template: `
+            <div class="container">
+                <button class="container__button" @click="setHouse"> You click me for select a house </button>
+                <div class="container__loading" v-if="loading"> loading..</div>
+                <h3 v-else class="container__house"> {{ house }}</h3>  
+            </div>
+        `,
+    methods: {
+      setHouse() {
+        this.loading = true;
+        setTimeout(() => {
+          this.house = this.getRandomFromArray(this.houses);
+          this.loading = false;
+        }, 5000);
+      },
+      getRandomFromArray(list) {
+        return list[Math.floor(Math.random() * list.length)];
+      }
+    }
+  });
+
+  const app = new Vue({
+    el: "#app",
+    data() {
+      return {
+        title: "Sombrero seleccionador"
+      };
+    }
+  });
+</script>
+
+<style>
+  body {
+    font-family: "Roboto", sans-serif;
+    font-size: 24px;
+  }
+  .container {
+  }
+
+  .container__button {
+    color: #404040;
+    font-size: 24px;
+  }
+  .container__loading {
+    color: #555555;
+    font-size: 24px;
+  }
+  .container__house {
+    color: blue;
+  }
+</style>
