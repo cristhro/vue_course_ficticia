@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <title> My first vue application </title>
+    <div id="app">
+        {{ message }}
+        <input type="text" v-model="message">
+    </div>
+</body>
+</html>
+
+<script>
+
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello world'
+        }
+    })
+</script>
