@@ -1,11 +1,16 @@
 <template>
-  <div class="wizard-card">
-    <img alt="Vue logo" :src="image">
+  <div 
+    class="wizard-card"
+    :class="{
+      'wizard-card--captured': captured
+    }"
+  >
+    <img class="wizard-card__image" :src="image">
     <span class="wizard-card__price"> {{ price }} </span>
-    <span class="wizard-card__quantity"> {{ name }}</span>
+    <span class="wizard-card__name"> {{ name }}</span>
 
-    <button @click="addQuantity(index)">DELETE</button>
-    <button @click="delQuantity(index)">CAPTURE</button>
+    <button @click="deleteMagician(index)">DELETE</button>
+    <button @click="captureMagician(index)">CAPTURE</button>
   </div>
 </template>
 
@@ -30,14 +35,17 @@ export default {
     },
     image({ item }) {
       return item.image;
+    },
+    captured({ item }) {
+      return item.captured;
     }
   },
   methods: {
-    addQuantity(index) {
-      this.$emit('add-name', index)
+    deleteMagician(index) {
+      this.$emit('delete-magician', index)
     },
-    delQuantity(index) {
-      this.$emit('del-name', index)
+    captureMagician(index) {
+      this.$emit('capture-magician', index)
     }
   }
 };
@@ -45,6 +53,22 @@ export default {
 
 <style lang="scss" scoped>
 .wizard-card {
-  background-image: url('https://i.imgflip.com/8p7xl.jpg');
+  background-image: url('https://i.pinimg.com/originals/6e/20/c6/6e20c6c6f5b6ab2a7a7b4a20bb1060af.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: grid;
+  grid-gap: 10px;
+  justify-items: center;
+  color: white;
+  font-size: 2em;
+  padding: 5%;
+  &__image {
+    width: 200px;
+    width: 400px;
+    object-fit: cover;
+  }
+  &--captured {
+    background: red;
+  }
 }
 </style>
