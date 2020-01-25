@@ -9,8 +9,8 @@
     <div class="history-house__select">
       <select v-model="houseId">
         <option v-for="{ _id, name } in houses" :key="_id" :value="_id">
-          {{ name }} </option
-        >>
+          {{ name }} 
+        </option>
       </select>
     </div>
     
@@ -19,12 +19,12 @@
 
     <!-- Card -->
     <house-card 
-      v-if="houseModel && !loading"
-      :name="houseModel.name"
-      :mascot="houseModel.mascot"
-      :headOfHouse="houseModel.headOfHouse"
-      :founder="houseModel.founder"
-      :members="houseModel.members"
+      v-if="houseData && !loading"
+      :name="houseData.name"
+      :mascot="houseData.mascot"
+      :headOfHouse="houseData.headOfHouse"
+      :founder="houseData.founder"
+      :members="houseData.members"
       category="active"
     />
   </div>
@@ -40,6 +40,11 @@ export default {
   components: {
     AppLoader,
     HouseCard
+  },
+
+  created () {
+    const { houseId } = this;
+    this.fetchHouseById({ houseId });
   },
 
   data() {
@@ -67,8 +72,8 @@ export default {
         }
       ],
       loading: false,
-      houseModel: null,
-      houseId: null
+      houseData: null,
+      houseId: '5a05da69d45bd0a11bd5e06f'
     };
   },
 
@@ -76,22 +81,27 @@ export default {
     isString(val) {
       return typeof val === 'string';
     },
-  },
+    async fetchHouseById({ houseId }){
+      if (!houseId) throw `Unknown houseId`
 
-  watch: {
-    async houseId(houseId) {
       const { API_KEY, API_URL_HOUSES } = this;
+
       this.loading = true;
       await fetch(
         `${API_URL_HOUSES}${houseId}?key=${API_KEY}`
-      )
-        .then(response => {
-          return response.json();
-        })
-        .then(houseData => {
-          this.loading = false;
-          this.houseModel = houseData[0];          
-        });
+      ).then(response => {
+        return response.json();
+      })
+      .then(houseData => {
+        this.loading = false;
+        this.houseData = houseData[0];          
+      });
+    }
+  },
+
+  watch: {
+    houseId(houseId) {
+      this.fetchHouseById({ houseId });
     }
   }
 };
@@ -104,5 +114,9 @@ export default {
   grid-auto-rows: auto;
   grid-gap: 20px;
   justify-items: center;
+  
+  &__select{
+  //  TODO
+  }
 }
 </style>
