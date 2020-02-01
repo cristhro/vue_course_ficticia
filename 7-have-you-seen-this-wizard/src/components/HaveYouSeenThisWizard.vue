@@ -8,6 +8,9 @@
       Empty list
     </div>
 
+    <WizardForm
+      @on-submit="onSubmit"
+    />
     <wizard-card
       class="have-you-seen-this-wizard__items"
       v-for="(item, index) in listFiltered"
@@ -23,12 +26,14 @@
 <script>
 import WizardCard from "@/components/WizardCard.vue";
 import AppHeader from "@/components/AppHeader.vue";
+import WizardForm from "@/components/WizardForm.vue";
 
 export default {
   name: "HaveYouSeenThisWizard",
   components: {
     AppHeader,
     WizardCard,
+    WizardForm,
   },
   data() {
     return {
@@ -77,6 +82,9 @@ export default {
     },
     deleteMagician(index) {
       this.list = this.list.filter((a, indexFilter) => index != indexFilter);
+    },
+    onSubmit(data){
+      this.list.push(data)
     }
   }
 };
