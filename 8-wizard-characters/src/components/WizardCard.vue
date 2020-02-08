@@ -1,17 +1,36 @@
 <template>
   <div class="wizard-card">
-    <img class="wizard-card__image" alt="Vue image" :src="image" style="width:100%"/>
+    <img
+      class="wizard-card__image"
+      alt="Vue image"
+      :src="image"
+      style="width:100%"
+    />
     <div class="wizard-card__container">
-      <h4><b> {{ name }}</b></h4> 
-      <p>{{gender}} & {{dateOfBirth}}</p> 
+      <h4>
+        <b> {{ name }}</b>
+      </h4>
+      <p>{{ gender }} & {{ dateOfBirth }}</p>
     </div>
-    <slot/>
+    <button
+      class="buttonFavorite"
+      :class="{
+        isFavorite
+      }"
+      @click="addFavorite"
+    >
+      ADD FAVORITE
+    </button>
+    <slot />
+
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
   name: "WizarsCard",
+
   props: {
     name: {
       type: String,
@@ -28,6 +47,21 @@ export default {
     image: {
       type: String,
       default: ""
+    },
+    isFavorite: {
+      type: Boolean,
+      default: false
+    },
+    index: {
+      type: Number
+    }
+  },
+
+  methods: {
+    addFavorite() {
+      console.log("<-- ASDOSAO");
+
+      this.$emit("add-favorite", this.index);
     }
   }
 };
@@ -36,7 +70,7 @@ export default {
 <style lang="scss" scoped>
 .wizard-card {
   flex: 0 1 24%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   width: 40%;
   margin: 5px;
@@ -45,7 +79,7 @@ export default {
   border-radius: 25px;
 
   &:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   }
   &__.container {
     padding: 2px 16px;
@@ -53,7 +87,13 @@ export default {
   &__image {
     width: 100%;
     height: auto;
-    border-radius: 25px 25px 0 0 ;
+    border-radius: 25px 25px 0 0;
   }
+}
+.buttonFavorite {
+  background: red;
+}
+.isFavorite {
+  background: green;
 }
 </style>

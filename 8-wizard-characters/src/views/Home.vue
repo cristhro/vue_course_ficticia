@@ -24,6 +24,9 @@
         :gender="item.gender"
         :dateOfBirth="item.dateOfBirth"
         :image="item.image"
+        :isFavorite="item.isFavorite"
+        :index="index"
+        @add-favorite="addFavorite"
       >
         <router-link :to="`/detail/${index}`"> Go detail </router-link>
       </wizard-card>
@@ -38,6 +41,8 @@
 <script>
 // @ is an alias to /src
 import WizardCard from "@/components/WizardCard.vue";
+import { tActions } from "@/helpers/types";
+import { mapGetters } from 'vuex';
 
 export default {
   name: "Home",
@@ -47,8 +52,8 @@ export default {
 
   created() {
     localStorage.setItem("list", JSON.stringify(require("@/mocks/wizardList")));
-    this.list = require("@/mocks/wizardList");
-    this.nameToFilter = this.getFilterNameFromQueryParam();
+    this.listFiltered = this.list
+    this.nameToFilter = this.getFilterNameFromQueryParam() || '';
     this.listFiltered = this.getListFilteredByName(this.nameToFilter);
   },
 
@@ -56,12 +61,18 @@ export default {
 
   data() {
     return {
-      list: [],
       listFiltered: [],
-      nameToFilter: ""
+      nameToFilter: "",
+      btnFavTitle: 'Favorite'
     };
   },
 
+  computed: {
+    ...mapGetters(['list']),
+    name() {
+      return this.data 
+    }
+  },
   methods: {
     getFilterNameFromQueryParam() {
       return this.$route.query.filterName;
@@ -79,8 +90,14 @@ export default {
         query: { filterName: this.nameToFilter }
       });
       this.listFiltered = this.getListFilteredByName(this.nameToFilter)
-    }
-  }
+    },
+    addFavorite(index) {
+      console.log("<-- index: ", index);
+      
+      this.$store.dispatch(tActions.ADD_FAVORITE, this.list[index])
+    },
+    
+  },
 
   // watch: {
   //   nameToFilter: {

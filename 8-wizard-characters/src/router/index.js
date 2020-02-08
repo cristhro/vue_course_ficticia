@@ -20,6 +20,12 @@ const routes = [
     name: 'detail',
     component: () => import('../views/WizardDetail.vue'),
     props: true
+  },
+  {
+    path: '/favorites',
+    name: 'favorites',
+    component: () => import('../views/AppFavorites.vue'),
+    props: true
   }
 ]
 
