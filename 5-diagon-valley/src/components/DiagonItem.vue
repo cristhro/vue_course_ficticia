@@ -1,19 +1,40 @@
 <template>
   <div class="diagon-item">
-    <span class="diagon-item__title"> <strong> Title: </strong>  {{ title }} </span>
-    <span class="diagon-item__quantity"> <strong> Quantity: </strong>  {{ quantity }}</span>
-    <span class="diagon-item__price"> <strong> Price: </strong>  {{ price }}</span>
-    <span class="diagon-item__total"> <strong> Total: </strong>  {{ total }}</span>
-
-    <button @click="addQuantity(index)">ADD</button>
-    <button @click="delQuantity(index)">DEL</button>
+    <div class="diagon-item__container">
+      <span class="diagon-item__container__title">
+        <strong> Title: </strong> {{ title }}
+      </span>
+      <span class="diagon-item__container__quantity">
+        <strong> Quantity: </strong> {{ quantity }}</span
+      >
+      <span class="diagon-item__container__price">
+        <strong> Price: </strong> {{ price }}</span
+      >
+      <span class="diagon-item__container__total">
+        <strong> Total: </strong> {{ total }}</span
+      >
+      <div class="diagon-item__container__buttons">
+        <button
+          class="diagon-item__container__buttons__add"
+          @click="addQuantity(index)"
+        >
+          ADD
+        </button>
+        <button
+          class="diagon-item__container__buttons__del"
+          @click="delQuantity(index)"
+        >
+          DEL
+        </button>
+      </div>
+    </div>
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
   name: "DiagonItem",
-  // TODO: revisar las herramientas de desarollo de los eventos
   props: {
     product: {
       type: Object
@@ -38,10 +59,10 @@ export default {
   },
   methods: {
     addQuantity(index) {
-      this.$emit('add-quantity', index)
+      this.$emit("add-quantity", index);
     },
     delQuantity(index) {
-      this.$emit('del-quantity', index)
+      this.$emit("del-quantity", index);
     }
   }
 };
@@ -49,9 +70,78 @@ export default {
 
 <style lang="scss" scoped>
 .diagon-item {
-  display: grid;
-  grid-gap: 5px;
-  grid-template-rows: 1fr;
-  grid-template-columns: 20% 20% 15% 15% 1fr 1fr;
+  flex: 0 1 24%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 40%;
+  margin: 5px;
+  max-width: 240px;
+  min-width: 240px;
+  border-radius: 25px;
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  &__container {
+    display: grid;
+    grid-row-gap: 10px;
+    padding: 8px 0 0 0;
+
+    &__buttons {
+      color: white;
+      display: flex;
+      height: 80px;
+
+      &__add {
+        width: 50%;
+        border-radius: 0 0 0 25px;
+        color: white;
+        padding: 15px 25px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+        background-color: #4caf50;
+        border: none;
+        box-shadow: 0 9px #999;
+
+        &:hover {
+          background-color: #3e8e41;
+        }
+
+        &:active {
+          background-color: #3e8e41;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+        }
+      }
+      &__del {
+        width: 50%;
+        border-radius: 0 0 25px;
+        color: white;
+        padding: 15px 25px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+             background-color: rgb(252, 70, 70);
+        border: none;
+        box-shadow: 0 9px #999;
+
+        &:hover {
+          background-color: #e65656;
+        }
+
+        &:active {
+          background-color: #ee7474;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+        }
+      }
+    }
+  }
 }
 </style>
